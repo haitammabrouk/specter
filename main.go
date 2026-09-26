@@ -1,7 +1,9 @@
 package main
 
-import "fmt"
+import (
+	"specter/internal/gitwalk"
+)
 
 func main() {
-	fmt.Print("Specter Ho ho ho ho...");
+	gitwalk.Revlist()
 }
