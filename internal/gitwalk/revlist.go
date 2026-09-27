@@ -21,7 +21,10 @@ func Revlist() {
 	scanner := bufio.NewScanner(stdout)
 	for scanner.Scan() {
 		commitHash := scanner.Text()
-		fmt.Println(commitHash)
+		fmt.Println("for commit : " + commitHash)
+		// cal diff-tree
+		diffTree(commitHash)
+		fmt.Println("------------------------------------------------------------------")
 	}
 
 	if err := scanner.Err(); err != nil {
