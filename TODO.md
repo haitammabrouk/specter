@@ -1,0 +1,1 @@
+read blobs directly from the blob queue

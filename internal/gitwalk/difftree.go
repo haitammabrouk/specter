@@ -7,6 +7,8 @@ import (
 	"strings"
 )
 
+var blobQueue map[string]struct{} = make(map[string]struct{})
+
 type ChangeType byte
 
 const (
@@ -69,7 +71,10 @@ func diffTree(commitHash string) {
 		}
 
 		entry := newDiffTreeEntry(metadata, status)
-		fmt.Println(entry)
+		fmt.Println("Blob : " + entry.NewBlob)
+		addBlobToQueue(entry.NewBlob)
+		readBlobContent(entry.NewBlob)
+		fmt.Println("-------------------------------")
 	}
 
 	if err := scanner.Err(); err != nil {
@@ -77,6 +82,40 @@ func diffTree(commitHash string) {
 	}
 
 	if err := cmd.Wait(); err != nil {
+		panic(err)
+	}
+}
+
+func addBlobToQueue(blobHash string) {
+	if !isBlobExist(blobHash) {
+		blobQueue[blobHash] = struct{}{}
+	}
+}
+
+func isBlobExist(blobHash string) bool {
+	_, val := blobQueue[blobHash]
+	return val
+}
+
+func readBlobContent(blobHash string) {
+	cmd := exec.Command("git", "cat-file", "-p", blobHash)
+
+	stdout, err := cmd.StdoutPipe()
+	if err != nil {
+		panic(err)
+	}
+
+	if err := cmd.Start(); err != nil {
+		panic(err)
+	}
+
+	scanner := bufio.NewScanner(stdout)
+	for scanner.Scan() {
+		blobContent := scanner.Text()
+		fmt.Println(blobContent)
+	}
+
+	if err := scanner.Err(); err != nil {
 		panic(err)
 	}
 }
