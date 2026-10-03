@@ -73,7 +73,9 @@ func diffTree(commitHash string) {
 		entry := newDiffTreeEntry(metadata, status)
 		fmt.Println("Blob : " + entry.NewBlob)
 		addBlobToQueue(entry.NewBlob)
-		readBlobContent(entry.NewBlob)
+		for blobHash := range blobQueue {
+			readBlobContent(blobHash)
+		}
 		fmt.Println("-------------------------------")
 	}
 
@@ -87,14 +89,7 @@ func diffTree(commitHash string) {
 }
 
 func addBlobToQueue(blobHash string) {
-	if !isBlobExist(blobHash) {
-		blobQueue[blobHash] = struct{}{}
-	}
-}
-
-func isBlobExist(blobHash string) bool {
-	_, val := blobQueue[blobHash]
-	return val
+	blobQueue[blobHash] = struct{}{}
 }
 
 func readBlobContent(blobHash string) {
