@@ -36,7 +36,7 @@ func newDiffTreeEntry(metadata []string, status ChangeType) DiffTreeEntry {
 		NewMode: metadata[1],
 		OldBlob: metadata[2],
 		NewBlob: metadata[3],
-		Status: status,
+		Status:  status,
 		OldPath: metadata[5],
 	}
 

@@ -1,15 +1,15 @@
 package gitwalk
 
 import (
-	"fmt"
 	"bufio"
+	"fmt"
 	"os/exec"
 )
 
 func Revlist() {
 	cmd := exec.Command("git", "rev-list", "--all")
 
-	stdout, err := cmd.StdoutPipe();
+	stdout, err := cmd.StdoutPipe()
 	if err != nil {
 		panic(err)
 	}

@@ -5,9 +5,9 @@ import (
 )
 
 type Rule struct {
-	RuleID string
+	RuleID      string
 	Description string
-	Keywords []string
-	Pattern *regexp.Regexp
-	MinEntropy float64
+	Keywords    []string
+	Pattern     *regexp.Regexp
+	MinEntropy  float64
 }

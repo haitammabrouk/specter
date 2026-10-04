@@ -2,8 +2,8 @@ package gitwalk
 
 import (
 	"bufio"
-	"os/exec"
 	"fmt"
+	"os/exec"
 )
 
 var blobQueue map[string]struct{} = make(map[string]struct{})
