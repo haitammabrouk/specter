@@ -2,8 +2,8 @@ package gitwalk
 
 import (
 	"bufio"
-	"fmt"
 	"os/exec"
+	"specter/internal/detector"
 )
 
 var blobQueue map[string]struct{} = make(map[string]struct{})
@@ -27,7 +27,7 @@ func readBlobContent(blobHash string) {
 	scanner := bufio.NewScanner(stdout)
 	for scanner.Scan() {
 		blobContent := scanner.Text()
-		fmt.Println(blobContent)
+		detector.ApplyRules(blobContent)
 	}
 
 	if err := scanner.Err(); err != nil {
