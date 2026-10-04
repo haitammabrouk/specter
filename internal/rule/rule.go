@@ -5,7 +5,7 @@ import (
 )
 
 type Rule struct {
-	RuleId string
+	RuleID string
 	Description string
 	Keywords []string
 	Pattern *regexp.Regexp
