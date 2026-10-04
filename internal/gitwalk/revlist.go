@@ -22,7 +22,6 @@ func Revlist() {
 	for scanner.Scan() {
 		commitHash := scanner.Text()
 		fmt.Println("for commit : " + commitHash)
-		// cal diff-tree
 		diffTree(commitHash)
 		fmt.Println("------------------------------------------------------------------")
 	}
