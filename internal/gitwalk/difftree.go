@@ -59,6 +59,7 @@ func diffTree(commitHash string) {
 		panic(err)
 	}
 
+	blobQueue := make(map[string]struct{})
 	scanner := bufio.NewScanner(stdout)
 	for scanner.Scan() {
 		metadata := strings.Fields(scanner.Text())
@@ -69,13 +70,14 @@ func diffTree(commitHash string) {
 		}
 
 		entry := newDiffTreeEntry(metadata, status)
-		fmt.Println("Blob : " + entry.NewBlob)
-		addBlobToQueue(entry.NewBlob)
-		for blobHash := range blobQueue {
-			readBlobContent(blobHash)
-		}
-		fmt.Println("-------------------------------")
+		blobQueue[entry.NewBlob] = struct{}{}
 	}
+
+	for blobHash := range blobQueue {
+		fmt.Println("Blob : " + blobHash)
+		readBlobContent(blobHash)
+	}
+	fmt.Println("------------------------------")
 
 	if err := scanner.Err(); err != nil {
 		panic(err)

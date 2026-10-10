@@ -2,15 +2,12 @@ package gitwalk
 
 import (
 	"bufio"
+	"fmt"
 	"os/exec"
-	"specter/internal/detector"
+
+	//"specter/internal/detector"
+	"specter/internal/entropy"
 )
-
-var blobQueue map[string]struct{} = make(map[string]struct{})
-
-func addBlobToQueue(blobHash string) {
-	blobQueue[blobHash] = struct{}{}
-}
 
 func readBlobContent(blobHash string) {
 	cmd := exec.Command("git", "cat-file", "-p", blobHash)
@@ -26,8 +23,11 @@ func readBlobContent(blobHash string) {
 
 	scanner := bufio.NewScanner(stdout)
 	for scanner.Scan() {
-		blobContent := scanner.Text()
-		detector.ApplyRules(blobContent)
+		//detector.ApplyRules(scanner.Text())
+		result := entropy.ComputeEntropyPerToken(scanner.Text())
+		for _, te := range result {
+			fmt.Println(te.Token, te.Entropy)
+		}
 	}
 
 	if err := scanner.Err(); err != nil {
