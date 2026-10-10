@@ -1,0 +1,1 @@
+define a base value for entropy that based on it u decide if a string is random or not and be able to extract candidates
